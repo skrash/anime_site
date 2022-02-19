@@ -1,0 +1,62 @@
+{% include 'headers.html' %}
+{% include 'menu.html' %}
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        {% block headers %}
+        {% endblock %}
+        <title>{{ title }}</title>
+    </head>
+    <body>
+        {% block nav %}
+        {% endblock %}
+        <div class="container">
+            <div class="row">
+            {% for anime in animes %}
+                <div class="col">
+                    <div class="card" style="width: 18rem;">
+                      <img src="{{ anime.img }}" class="card-img-top" alt="{{ anime.title }}">
+                      <div class="card-body">
+                        <h5 class="card-title">{{ anime.title }}</h5>
+                        <p class="card-text">{{ anime.description|truncatewords:"100" }}...</p>
+                          <p class="card-subtitle mb-2">
+                              {% for genre in anime.genres %}
+                                  <a href="{% url 'genre' genre %}">{{ genre }}</a>
+                              {% endfor %}
+                          </p>
+                          <div class="row align-items-end">
+                              <div class="col">
+                                  &#x1F44D {{ anime.likes }}
+                              </div>
+                              <div class="col">
+                                  &#x1F44E {{ anime.dislikes }}
+                              </div>
+                          </div>
+                        <a href="/{{ anime.id }}/" class="btn btn-primary">Смотреть</a>
+                      </div>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+        <nav class="m-4">
+          <ul class="pagination pagination-lg justify-content-center">
+              {% if page.has_previous %}
+              <li class="page-item">
+                  <a class="page-link" href="?page={{ page.previous_page_number }}" aria-label="Previous">
+                    <span aria-hidden="true">{{ page.previous_page_number }}</span>
+                  </a>
+              </li>
+              {% endif %}
+              <li class="page-item active"><a class="page-link" href="">{{ page.number }}</a></li>
+                {% if page.has_next %}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{ page.next_page_number }}" aria-label="Next">
+                    <span aria-hidden="true">{{ page.next_page_number }}</span>
+                  </a>
+                </li>
+                {% endif %}
+          </ul>
+        </nav>
+    </body>
+</html>

@@ -1,0 +1,41 @@
+{% include 'headers.html' %}
+{% include 'menu.html' %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {% block headers %}
+    {% endblock %}
+    <title>{{ title }}</title>
+</head>
+<body>
+{% block menu %}
+{% endblock %}
+<div class="container mt-5">
+  <img src="{{ anime.img }}" alt="{{ anime.title }}" class="rounded float-start">
+    <p>{{ anime.description }}</p>
+    <p>
+        {% for genre in genres %}
+            <a href="{% url 'genre' genre %}">{{ genre }}</a>
+        {% endfor %}
+    </p>
+    <div class="row align-items-end">
+      <div class="col">
+          &#x1F44D {{ anime.likes }}
+      </div>
+      <div class="col">
+          &#x1F44E {{ anime.dislikes }}
+      </div>
+  </div>
+</div>
+<div class="container float-end m-5">
+    {% if url == '' %}
+        <div class="alert alert-info" role="alert">
+          <p>В настоящее время просмотр данного аниме недоступен &#x1F61E </p>
+            <a href="{% url 'feedback' %}"> Можете написать нам и возможно мы его добавим!</a>
+        </div>
+    {% else %}
+        <iframe width="560" height="500" src="{{ url }}" allowfullscreen></iframe>
+    {% endif %}
+</div>
+</body>
+</html>
